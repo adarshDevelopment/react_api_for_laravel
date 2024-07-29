@@ -11,7 +11,7 @@ import { AppContext } from './Context/AppContext'
 function App() {
 
   const { user } = useContext(AppContext);
-  console.log('user from app: ', user);
+  // console.log('user from app: ', user);
 
   return <BrowserRouter>
     <Routes>

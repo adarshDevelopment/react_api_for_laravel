@@ -15,14 +15,19 @@ const AppProvider = ({ children }) => {
         });
         const data = await res.json();
 
-        setUser(data);
+        if (res.ok) {
+
+            setUser(data);
+        }
         console.log(data.name);
     }
 
     useEffect(() => {
         if (token) {
-            console.log('token from context: ', token)
+            // console.log('token from context: ', token)
             getUser();
+        } else {
+            setUser(null);
         }
     }, [token]);
 

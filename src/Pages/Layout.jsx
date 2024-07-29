@@ -1,12 +1,35 @@
 import React, { useContext } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { AppContext } from '../Context/AppContext'
 
 function Layout() {
 
-    const { user } = useContext(AppContext);
+    const { user, setUser, token, setToken } = useContext(AppContext);
+    const navigate = useNavigate();
 
+    const logoutForm = async (e) => {
+        e.preventDefault();
+        console.log('inside logout Form');
+        console.log(token);
+        const res = await fetch('/api/logout', {
+            method: 'post',
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            console.log('data.success working');
+            localStorage.removeItem('token');
+            // setUser(null);
+            setToken('');
+            navigate('/');
+        }
+
+    }
 
     return (
         <>
@@ -27,7 +50,18 @@ function Layout() {
                             </nav>
                         </div>
 
-                        {user ? user.name
+                        {user ?
+                            <div className='flex items-center gap-5'>
+                                <div className='flex items-center gap-5'>
+                                    {user.name}
+                                </div>
+
+                                <div className='flex items-center gap-5 '>
+                                    <form onSubmit={(e) => { logoutForm(e) }} className='hover:bg-slate-600 p-2 rounded-md cursor-pointer'>
+                                        <button>Log Out</button>
+                                    </form>
+                                </div>
+                            </div>
                             : <div className='flex items-center gap-5'>
                                 <nav className=' py-5 '>
                                     <Link to={"/register"} className='hover:bg-slate-600 p-2 rounded-md'> Register</Link>
@@ -35,6 +69,7 @@ function Layout() {
                                 <nav className=' py-5  '>
                                     <Link to={"/login"} className='hover:bg-slate-600 p-2 rounded-md'> Login</Link>
                                 </nav>
+
                             </div>
                         }
 
