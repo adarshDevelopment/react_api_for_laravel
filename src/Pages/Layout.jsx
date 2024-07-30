@@ -2,6 +2,8 @@ import React, { useContext } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { AppContext } from '../Context/AppContext'
+import { Toaster, toast } from 'sonner'
+
 
 function Layout() {
 
@@ -52,9 +54,15 @@ function Layout() {
 
                         {user ?
                             <div className='flex items-center gap-5'>
+
+                                <nav className=' py-5 '>
+                                    <Link to={"/create"} className='hover:bg-slate-600 p-2 rounded-md'> Create Post</Link>
+                                </nav>
+
                                 <div className='flex items-center gap-5'>
                                     {user.name}
                                 </div>
+
 
                                 <div className='flex items-center gap-5 '>
                                     <form onSubmit={(e) => { logoutForm(e) }} className='hover:bg-slate-600 p-2 rounded-md cursor-pointer'>
@@ -78,10 +86,12 @@ function Layout() {
 
                 </header>
 
-                <main className='container mx-auto px-5 mt-3 flex-grow my-auto'>
+                <main className='container mx-auto px-5 mt-3 flex-grow'>
                     <Outlet />
 
                 </main >
+
+                <Toaster position="top-right" richColors />
 
             </div>
 

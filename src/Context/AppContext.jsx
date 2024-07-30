@@ -19,7 +19,6 @@ const AppProvider = ({ children }) => {
 
             setUser(data);
         }
-        console.log(data.name);
     }
 
     useEffect(() => {

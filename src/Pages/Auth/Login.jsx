@@ -2,8 +2,8 @@ import React, { useContext, useState } from 'react'
 import { AppContext } from '../../Context/AppContext'
 import { useNavigate } from 'react-router-dom'
 
-const labelClasses = 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'
-const inputClasses = 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+const labelClasses = 'block mb-2 text-sm font-medium text-gray-900'
+const inputClasses = 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 '
 
 const Login = () => {
     const { setToken } = useContext(AppContext);
