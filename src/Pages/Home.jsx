@@ -44,7 +44,7 @@ const Home = () => {
                             <div className=' border-black p-2 '>
                                 <div>
                                     <h1 className='text-xl font-semibold'>{post.title}</h1>
-                                    <p className='text-sm text-gray-500'>{post.body}</p>
+                                    <p className='text-sm text-gray-500'>{post.body}</p>  
                                     <div className='flex gap-2 items-center'>
                                         <span className='text-sm text-gray-500'> Created by:</span>
                                         <span className='font-semibold'>

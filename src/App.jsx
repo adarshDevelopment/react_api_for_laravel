@@ -9,6 +9,8 @@ import { AppContext } from './Context/AppContext'
 import Create from './Pages/Posts/Create'
 import Show from './Pages/Posts/Show'
 import Update from './Pages/Posts/Update'
+// import PicturesIndex from './Pages/Pictures'
+import PicturesIndex from './Pages/Pictures/Index';
 
 
 function App() {
@@ -29,6 +31,9 @@ function App() {
         <Route path='/login' element={user ? <Home /> : <Login />} />
         <Route path='create' element={user ? <Create /> : <Login />} />
         <Route path='posts/update/:id' element={user ? <Update /> : <Login />} />
+
+        <Route path='/pictures' element={<PicturesIndex />} />
+
 
 
 

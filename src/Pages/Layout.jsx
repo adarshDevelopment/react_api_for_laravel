@@ -12,8 +12,8 @@ function Layout() {
 
     const logoutForm = async (e) => {
         e.preventDefault();
-        console.log('inside logout Form');
-        console.log(token);
+        // console.log('inside logout Form');
+        // console.log(token);
         const res = await fetch('/api/logout', {
             method: 'post',
             headers: {
@@ -57,6 +57,10 @@ function Layout() {
 
                                 <nav className=' py-5 '>
                                     <Link to={"/create"} className='hover:bg-slate-600 p-2 rounded-md'> Create Post</Link>
+                                </nav>
+
+                                <nav className=' py-5 '>
+                                    <Link to={"/pictures"} className='hover:bg-slate-600 p-2 rounded-md'> Post Picture</Link>
                                 </nav>
 
                                 <div className='flex items-center gap-5'>
