@@ -7,11 +7,12 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const inputClasses = 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 '
 
-function Index() {
+function IndexMultiple() {
 
     const { token } = useContext(AppContext);
 
-    const [picture, setPicture] = useState();
+    // const [picture, setPicture] = useState();
+    const [files, setFiles] = useState([]);
     const [title, setTitle] = useState('');
     const [errors, setErrors] = useState({});
 
@@ -25,7 +26,11 @@ function Index() {
         try {
             var formData = new FormData();
             formData.append('title', title);
-            formData.append('image', picture);
+            // formData.append('image', picture);
+
+            for (let i = 0; i <= files.length(); i++) {
+                formData(`images[${i}]`, files[$i]);
+            }
 
             var response = await axios.post('http://127.0.0.1:8000/api/pictures', formData, {
                 headers: {
@@ -51,7 +56,8 @@ function Index() {
     }
 
     const handleOnChnageFile = (e) => {
-        setPicture(e.target.files[0]);
+        // setPicture(e.target.files[0]);
+        setFiles(e.target.files);
         // console.log('files: ', e.target.files);
     }
     var fetchPictures = async () => {
@@ -117,7 +123,7 @@ function Index() {
 
                 <div className='mt-20'>
                     <form onSubmit={handleSubmitForm}>
-                        <input type="file" id='fileInput' onChange={handleOnChnageFile} required />
+                        <input type="file" id='fileInput' onChange={handleOnChnageFile} multiple required />
                         <input value={title} type="text" name='title' onChange={(e) => setTitle(e.target.value)} required className='border border-gray-300 ' />
                         <button className='bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded-md text-white'>Upload</button>
                     </form>
@@ -150,7 +156,8 @@ function Index() {
                                     alt={picture.title}
                                 />
                             </div>
-                        ))
+                        )
+                        )
                         : (<p>No pictures found</p>)
                     }
                 </div>
@@ -161,4 +168,4 @@ function Index() {
     )
 }
 
-export default Index
+export default IndexMultiple
