@@ -28,11 +28,12 @@ function IndexMultiple() {
             formData.append('title', title);
             // formData.append('image', picture);
 
-            for (let i = 0; i <= files.length(); i++) {
-                formData(`images[${i}]`, files[$i]);
+            for (let i = 0; i < files.length; i++) {
+                formData.append(`images[${i}]`, files[i]);
+
             }
 
-            var response = await axios.post('http://127.0.0.1:8000/api/pictures', formData, {
+            var response = await axios.post('http://127.0.0.1:8000/api/pictures_multiple', formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
@@ -111,7 +112,8 @@ function IndexMultiple() {
     useEffect(() => {
         fetchPictures();
     }, []);
-
+// same photo getting uploaded while uplaoding image
+// error deleting photos after setting up multiple images insertion
 
 
     return (
@@ -123,8 +125,8 @@ function IndexMultiple() {
 
                 <div className='mt-20'>
                     <form onSubmit={handleSubmitForm}>
-                        <input type="file" id='fileInput' onChange={handleOnChnageFile} multiple required />
-                        <input value={title} type="text" name='title' onChange={(e) => setTitle(e.target.value)} required className='border border-gray-300 ' />
+                        <input type="file" id='fileInput' onChange={handleOnChnageFile} multiple />
+                        <input value={title} type="text" name='title' onChange={(e) => setTitle(e.target.value)} className='border border-gray-300 ' />
                         <button className='bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded-md text-white'>Upload</button>
                     </form>
                 </div>
@@ -135,13 +137,12 @@ function IndexMultiple() {
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5'>
                     {pictures.length > 0
                         ? pictures.map((picture) => (
-
                             <div key={picture.id} onMouseEnter={() => setHidden(picture.id)} onMouseLeave={() => setHidden(-1)} className='relative w-full h-60 md:h-72 lg:h-80 shadow-xl'>
 
                                 {/* id: {picture.id}
                                 <br />
                                 hidden Id: {hidden} */}
-
+                                {picture.picture.title}
                                 <button onClick={() => confirmDelete(picture.id)}
                                     className={hidden === picture.id ?
                                         'absolute top-2 right-2 text-gray-400 hover:text-gray-500 text-lg hover:text-xl'
