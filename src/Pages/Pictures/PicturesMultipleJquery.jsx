@@ -7,7 +7,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const inputClasses = 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 '
 
-function IndexMultiple() {
+function PicturesMultipleJquery() {
 
     const { token } = useContext(AppContext);
 
@@ -170,4 +170,4 @@ function IndexMultiple() {
     )
 }
 
-export default IndexMultiple
+export default PicturesMultipleJquery

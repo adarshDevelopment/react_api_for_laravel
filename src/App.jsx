@@ -12,6 +12,7 @@ import Update from './Pages/Posts/Update'
 // import PicturesIndex from './Pages/Pictures'
 import PicturesIndex from './Pages/Pictures/Index';
 import PictureIndexMultiple from './Pages/Pictures/IndexMultiple'
+import PicturesMultipleJquery from './Pages/Pictures/PicturesMultipleJquery'
 
 
 function App() {
@@ -35,7 +36,8 @@ function App() {
 
         {/* <Route path='/pictures' element={<PicturesIndex />} /> */}
 
-        <Route path='/pictures' element={<PictureIndexMultiple />} />
+        {/* <Route path='/pictures' element={<PictureIndexMultiple />} /> */}
+        <Route path='/pictures' element={<PicturesMultipleJquery />} />
 
 
 
