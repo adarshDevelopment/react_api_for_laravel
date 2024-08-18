@@ -22,7 +22,8 @@ function IndexMultiple() {
 
     const handleSubmitForm = async (e) => {
         e.preventDefault();
-
+        console.log(pictures);
+// return;
         try {
             var formData = new FormData();
             formData.append('title', title);

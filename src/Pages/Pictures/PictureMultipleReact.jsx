@@ -8,31 +8,36 @@ import $ from 'jquery';
 
 const inputClasses = 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 '
 
-function PicturesMultipleJquery() {
+function PictureMultipleReact() {
 
     const { token } = useContext(AppContext);
 
-    // const [picture, setPicture] = useState();
-    const [files, setFiles] = useState([]);
     const [title, setTitle] = useState('');
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState('default error message');
+    const [inputs, setInputs] = useState([{ id: Date.now(), file: null }]);
+
 
     const [pictures, setPictures] = useState({});
 
     const [hidden, setHidden] = useState(-1);
 
+    // Submit form
     const handleSubmitForm = async (e) => {
         e.preventDefault();
 
         try {
+
             var formData = new FormData();
             formData.append('title', title);
-            // formData.append('image', picture);
 
-            for (let i = 0; i < files.length; i++) {
-                formData.append(`images[${i}]`, files[i]);
+            inputs.map((input, index) => {
+                // console.log(input[0]);
 
-            }
+                console.log(input.file);
+                // console.log(input.file);
+                // console.log('index: ' +index);
+                formData.append(`images[${index}]`, input.file)
+            })
 
             var response = await axios.post('http://127.0.0.1:8000/api/pictures_multiple', formData, {
                 headers: {
@@ -41,27 +46,25 @@ function PicturesMultipleJquery() {
                 }
             })
             toast.success('Pciture successfully posted');
-            setTitle('');
-            document.getElementById('fileInput').value = '';
 
+
+            setTitle('');
+            setInputs([{}]);
             await fetchPictures();
         } catch (e) {
-            if (e.response.status === 422) {
-                setErrors(e.response.data.errors);
-                // console.log('errors: ', errors);
-                // console.log(e.response.data);
-            }
-            toast.error('Something went wrong from. Please Try again.');
+            if (e.response.data.message) {
+                setErrors(e.response.data.message);
+                toast.error(errors);
 
+            } else {
+
+                toast.error('Something went wrong. Please try again');
+            }
         }
 
     }
 
-    const handleOnChnageFile = (e) => {
-        // setPicture(e.target.files[0]);
-        setFiles(e.target.files);
-        // console.log('files: ', e.target.files);
-    }
+
     var fetchPictures = async () => {
         try {
             var response = await axios.get('http://127.0.0.1:8000/api/pictures', {
@@ -77,8 +80,9 @@ function PicturesMultipleJquery() {
         }
     }
 
+    //  Delete form 
     const confirmDelete = (id) => {
-        confirm('Are you sure you wnat to delete this picture?');
+        const result = confirm('Are you sure you wnat to delete this picture?');
         const deletePicture = async () => {
             try {
                 var response = await axios.delete(`http://127.0.0.1:8000/api/pictures/${id}`, {
@@ -103,7 +107,7 @@ function PicturesMultipleJquery() {
             }
         }
 
-        if (confirm) {
+        if (result) {
             deletePicture();
         } else {
             return;
@@ -111,46 +115,83 @@ function PicturesMultipleJquery() {
 
     }
 
+
+    // add fields
+
+    const addInputFields = (e) => {
+        e.preventDefault();
+        setInputs([...inputs, { id: Date.now(), file: null }]);
+    }
+
+    const removeItems = (e, id) => {
+        console.log(inputs);
+        console.log('id: ' + id);
+        e.preventDefault();
+        setInputs(inputs.filter(input => input.id !== id));
+    }
+
+    const handleChange = (e, id) => {
+        // add file to setInputs array as object
+        var file = e.target.files[0];
+
+        setInputs(
+            inputs.map(
+                input => input.id === id
+                    ? { ...input, file: file }
+                    : input
+            )
+        )
+
+    }
+
     useEffect(() => {
         fetchPictures();
     }, []);
-    // same photo getting uploaded while uplaoding image
-    // error deleting photos after setting up multiple images insertion
-
-    const addRow = () => {
-        // e.preventDefault();
-        console.log('button pressed');
-        var formMultiple = document.getElementById('form_multiple');
-
-        formMultiple.insertAdjacentHTML('beforeend', `
-            <div class='flex items-center gap-5'>
-                <input type="file" id='fileInput' onChange={handleOnChnageFile} multiple />
-                <input value=${title} type="text" name='title' onChange={(e) => setTitle(e.target.value)} class='border border-gray-300 ' />
-                <button class='bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded-md text-white'>Upload</button>
-                <span onClick={() => addRow()} class='bg-green-500 hover:bg-green-600 px-2 py-1 rounded-md text-white cursor-pointer'>Add</span>
-            </div>`);
-    }
     return (
         <div className='flex flex-col items-center h-full '>
             <div className=''>
                 <div >
                     Pictures
                 </div>
-
+                {/* Upload Form  */}
                 <div className='mt-20'>
-                    <form onSubmit={handleSubmitForm} className='flex flex-col gap-3' id='form_multiple'>
-                        <div className='flex items-center gap-5'>
-                            <input type="file" id='fileInput' onChange={handleOnChnageFile} multiple />
+                    <form className='flex flex-col items-center justify-center gap-' id='form_multiple2'>
+                        <div className='flex items-start gap-5 '>
+                            {/* <input type="file" id='fileInput' onChange={handleOnChnageFile} multiple /> */}
                             <input value={title} type="text" name='title' onChange={(e) => setTitle(e.target.value)} className='border border-gray-300 ' />
-                            <button className='bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded-md text-white'>Upload</button>
-                            <span onClick={() => addRow()} className='bg-green-500 hover:bg-green-600 px-2 py-1 rounded-md text-white cursor-pointer'>Add</span>
+
+
+                            <button className='bg-blue-500 hover:bg-blue-600 px-2 py-1 rounded-md text-white' onClick={handleSubmitForm}>Upload</button>
+
+                            <button className='bg-green-500 hover:bg-green-600 px-2 py-1 rounded-md text-white' onClick={addInputFields}>Add Pictures</button>
+                            <div className='flex flex-col gap-3'>
+
+                                {
+                                    inputs.map((input) => (
+                                        <div key={input.id}>
+                                            <input
+                                                key={input.id}
+                                                type="file"
+                                                id={`fileInput-${input.id}`}
+                                                onChange={(e) => handleChange(e, input.id)}
+                                                value={input.value}
+                                            />
+                                            {inputs.length > 1 ? (<button className='bg-red-500 hover:bg-red-600 px-2 py-1 rounded-md text-white' onClick={(e) => removeItems(e, input.id)}>Remove </button>) : ''}
+
+                                        </div>
+                                    ))
+                                }
+
+
+                            </div>
+
                         </div>
-                        
+
                     </form>
                 </div>
             </div>
 
-            {/* image */}
+            {/* Image List */}
             <div className='flex-grow p-5 lg:w-[80%] w-[90%] mx-auto'>
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5'>
                     {pictures.length > 0
@@ -160,7 +201,7 @@ function PicturesMultipleJquery() {
                                 {/* id: {picture.id}
                                 <br />
                                 hidden Id: {hidden} */}
-                                {picture.file_name}
+                                {picture.picture_main.title }
                                 <button onClick={() => confirmDelete(picture.id)}
                                     className={hidden === picture.id ?
                                         'absolute top-2 right-2 text-gray-400 hover:text-gray-500 text-lg hover:text-xl'
@@ -181,10 +222,8 @@ function PicturesMultipleJquery() {
                     }
                 </div>
             </div>
-
-
         </div>
     )
 }
 
-export default PicturesMultipleJquery
+export default PictureMultipleReact

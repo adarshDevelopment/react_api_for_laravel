@@ -13,6 +13,7 @@ import Update from './Pages/Posts/Update'
 import PicturesIndex from './Pages/Pictures/Index';
 import PictureIndexMultiple from './Pages/Pictures/IndexMultiple'
 import PicturesMultipleJquery from './Pages/Pictures/PicturesMultipleJquery'
+import PictureMultipleReact from './Pages/Pictures/PictureMultipleReact'
 
 
 function App() {
@@ -37,7 +38,7 @@ function App() {
         {/* <Route path='/pictures' element={<PicturesIndex />} /> */}
 
         {/* <Route path='/pictures' element={<PictureIndexMultiple />} /> */}
-        <Route path='/pictures' element={<PicturesMultipleJquery />} />
+        <Route path='/pictures' element={<PictureMultipleReact />} />
 
 
 
