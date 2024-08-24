@@ -38,7 +38,6 @@ function Layout() {
 
             <div className='flex flex-col h-screen'>
 
-
                 <header className=' bg-[#1d293a] text-white'>
 
                     <div className='flex justify-between container mx-auto items-center '>
@@ -52,37 +51,39 @@ function Layout() {
                             </nav>
                         </div>
 
-                        {user ?
-                            <div className='flex items-center gap-5'>
-
-                                <nav className=' py-5 '>
-                                    <Link to={"/create"} className='hover:bg-slate-600 p-2 rounded-md'> Create Post</Link>
-                                </nav>
-
-                                <nav className=' py-5 '>
-                                    <Link to={"/pictures"} className='hover:bg-slate-600 p-2 rounded-md'> Post Picture</Link>
-                                </nav>
-
+                        {
+                            user ?
                                 <div className='flex items-center gap-5'>
-                                    {user.name}
+
+                                    <nav className=' py-5 '>
+                                        <Link to={"/create"} className='hover:bg-slate-600 p-2 rounded-md'> Create Post</Link>
+                                    </nav>
+
+                                    <nav className=' py-5 '>
+                                        <Link to={"/pictures"} className='hover:bg-slate-600 p-2 rounded-md'> Post Picture</Link>
+                                    </nav>
+
+                                    <div className='flex items-center gap-5'>
+                                        {user.name}
+                                    </div>
+
+
+                                    <div className='flex items-center gap-5 '>
+                                        <form onSubmit={(e) => { logoutForm(e) }} className='hover:bg-slate-600 p-2 rounded-md cursor-pointer'>
+                                            <button>Log Out</button>
+                                        </form>
+                                    </div>
                                 </div>
+                                
+                                : <div className='flex items-center gap-5'>
+                                    <nav className=' py-5 '>
+                                        <Link to={"/register"} className='hover:bg-slate-600 p-2 rounded-md'> Register</Link>
+                                    </nav>
+                                    <nav className=' py-5  '>
+                                        <Link to={"/login"} className='hover:bg-slate-600 p-2 rounded-md'> Login</Link>
+                                    </nav>
 
-
-                                <div className='flex items-center gap-5 '>
-                                    <form onSubmit={(e) => { logoutForm(e) }} className='hover:bg-slate-600 p-2 rounded-md cursor-pointer'>
-                                        <button>Log Out</button>
-                                    </form>
                                 </div>
-                            </div>
-                            : <div className='flex items-center gap-5'>
-                                <nav className=' py-5 '>
-                                    <Link to={"/register"} className='hover:bg-slate-600 p-2 rounded-md'> Register</Link>
-                                </nav>
-                                <nav className=' py-5  '>
-                                    <Link to={"/login"} className='hover:bg-slate-600 p-2 rounded-md'> Login</Link>
-                                </nav>
-
-                            </div>
                         }
 
                     </div>
@@ -92,7 +93,6 @@ function Layout() {
 
                 <main className='container mx-auto px-5 mt-3 flex-grow'>
                     <Outlet />
-
                 </main >
 
                 <Toaster position="top-right" richColors />

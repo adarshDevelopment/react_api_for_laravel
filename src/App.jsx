@@ -1,52 +1,28 @@
-
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Layout from './Pages/Layout'
-import Home from './Pages/Home'
-import Register from './Pages/Auth/Register'
-import Login from './Pages/Auth/Login'
+import { createBrowserRouter, Route, createRoutesFromElements, RouterProvider } from 'react-router-dom'
 import { useContext } from 'react'
 import { AppContext } from './Context/AppContext'
-import Create from './Pages/Posts/Create'
-import Show from './Pages/Posts/Show'
-import Update from './Pages/Posts/Update'
-// import PicturesIndex from './Pages/Pictures'
-import PicturesIndex from './Pages/Pictures/Index';
-import PictureIndexMultiple from './Pages/Pictures/IndexMultiple'
-import PicturesMultipleJquery from './Pages/Pictures/PicturesMultipleJquery'
-import PictureMultipleReact from './Pages/Pictures/PictureMultipleReact'
 
+/*
+  Note:
+    Since useContext hook cant be used outside jsx/react function, we create function object of useContext inside App functio and then pass it to the user defined function
+*/
+// import createAppRouter from './utils/router'
+// import { createAppRouter } from './utils/router';
+import { createAppRouter } from './utils/router';
 
 function App() {
 
-  const { user } = useContext(AppContext);
+  const { user, loading } = useContext(AppContext);
+  const router = createAppRouter();
   // console.log('user from app: ', user);
 
-  return <BrowserRouter>
-    <Routes>
+  return (
+    <>
+      <RouterProvider router={router}>
 
-      <Route path='/' element={<Layout />} >
-
-        <Route index element={<Home />} />
-        <Route path='/posts/:id' element={<Show />} />
-
-
-        <Route path='/register' element={user ? <Home /> : <Register />} />
-        <Route path='/login' element={user ? <Home /> : <Login />} />
-        <Route path='create' element={user ? <Create /> : <Login />} />
-        <Route path='posts/update/:id' element={user ? <Update /> : <Login />} />
-
-        {/* <Route path='/pictures' element={<PicturesIndex />} /> */}
-
-        {/* <Route path='/pictures' element={<PictureIndexMultiple />} /> */}
-        <Route path='/pictures' element={<PictureMultipleReact />} />
-
-
-
-
-
-      </Route>
-    </Routes>
-  </BrowserRouter>
+      </RouterProvider>
+    </>
+  )
 }
 
 export default App

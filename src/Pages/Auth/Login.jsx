@@ -37,7 +37,6 @@ const Login = () => {
         }
         else {
 
-
             // console.log('data from login page: ', data)
 
         }

@@ -74,7 +74,7 @@ function PictureMultipleReact() {
             })
             setPictures(response.data.pictures);
         } catch (e) {
-            toast.warining(e);
+            toast.error(e);
             // toast.warning('Error fetching Pictures');
 
         }
@@ -147,6 +147,8 @@ function PictureMultipleReact() {
     useEffect(() => {
         fetchPictures();
     }, []);
+
+
     return (
         <div className='flex flex-col items-center h-full '>
             <div className=''>
@@ -201,7 +203,7 @@ function PictureMultipleReact() {
                                 {/* id: {picture.id}
                                 <br />
                                 hidden Id: {hidden} */}
-                                {picture.picture_main.title }
+                                {picture.picture_main.title}
                                 <button onClick={() => confirmDelete(picture.id)}
                                     className={hidden === picture.id ?
                                         'absolute top-2 right-2 text-gray-400 hover:text-gray-500 text-lg hover:text-xl'
